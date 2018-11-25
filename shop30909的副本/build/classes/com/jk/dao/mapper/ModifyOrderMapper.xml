@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jk.dao.ModifyOrder">
+<!--回收策略为先进先出--><!--自动刷新时间60s--><!--最多缓存512个引用对象-->
+<cache eviction="FIFO"  flushInterval="600000" size="512" readOnly="true"/> <!--只读-->
+
+<!-- 根据订单ID查询订单 -->
+<select id="checkOrder" parameterType="Integer"  resultType="com.jk.entity.Order">
+		select * from `orderTB` where `id`=#{id};
+		
+</select>
+
+<!-- 根据商品ID查询商品 -->
+<select id="checkProducts" parameterType="Integer"  resultType="com.jk.entity.Product">
+		select * from `productsTB` where `id`=#{id};
+		
+</select>
+<!-- 添加新订单ID的方法 -->
+<insert	id="addOrderTB" parameterType="com.jk.entity.Order">
+   INSERT INTO `shopDB`.`orderTB` (`id`, `proID`, `quantity`) 
+   VALUES (#{id}, #{proID}, #{quantity});
+
+</insert>
+<!-- 删除订单 -->
+<delete id="deleteOrderTB" parameterType="String" >
+		
+	delete from `orderTB` where `id`=#{id};
+
+
+</delete>
+<!-- 查询所有商品 -->
+<select id="seeProducts" resultType="com.jk.entity.OpSu">
+		
+select sp.*, ot.`quantity`from `shopDB`.`productsTB` sp,`orderTB` ot
+where sp.`id`=ot.`proID`;
+
+</select>
+<!-- 查询所有商品名 -->
+<select id="checkProductName" resultType="com.jk.entity.Product">
+
+		select `name`,`pic` from `productsTB`;
+
+</select>
+</mapper>

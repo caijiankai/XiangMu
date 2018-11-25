@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jk.dao.UserMapper">
+<!--回收策略为先进先出--><!--自动刷新时间60s--><!--最多缓存512个引用对象-->
+<cache eviction="FIFO"  flushInterval="600000" size="512" readOnly="true"/> <!--只读-->
+
+<!--A. 分页查询所有的人才信息，按工作年限降序排列  -->
+	<select id="checkEn"  resultType="com.jk.entity.EnterpriseTalent">
+			
+		SELECT * FROM EnterpriseTalentManagement.enterpriseTalent
+		order by `workingLife` desc;	
+	
+	</select>
+	<!--B. 查询所有的部门  -->
+	<select id="checkDpar" resultType="com.jk.entity.EnterpriseTalent">
+	
+		SELECT * FROM EnterpriseTalentManagement.department;
+	</select>
+	<!--C. 根据指定部门，分页查询人才信息，按工作年限降序排列  -->
+	<select id="checkEn2"  parameterType="String" resultType="com.jk.entity.EnterpriseTalent">
+			SELECT * FROM EnterpriseTalentManagement.enterpriseTalent,EnterpriseTalentManagement.department dp
+			where dp.`name`=#{name}
+			order by `workingLife` desc
+	</select>
+	<!--D. 根据人才编号查询人才信息  -->
+	<selcet id="checkEn3" parameterType="Intefer" resultType="com.jk.entity.EnterpriseTalent" >
+			SELECT * FROM EnterpriseTalentManagement.enterpriseTalent 
+		where id=#{id};
+	</selcet>
+	<!--E. 添加人才信息  -->
+	 <insert   id="addEn" parameterType="com.jk.entity.EnterpriseTalent">
+		INSERT INTO `EnterpriseTalentManagement`.`enterpriseTalent` (`id`, `name`, `workingLife`, `workExperience`, `personalProfile`, `departmentId`, `graduateSchool`) 
+		VALUES (#{id}, #{name}, #{workingLife}, #{workExperience}, #{personalProfile}, #{departmentId}, #{graduateSchool}');
+	</insert>
+	
+
+	<!--F.修改人才信息  -->
+	<update id="modifyEn" resultType="com.jk.entity.EnterpriseTalent" >
+		UPDATE `EnterpriseTalentManagement`.`enterpriseTalent` 
+		SET `name`=#{name}, `workingLife`=#{workingLife}, `workExperience`=#{workExperience}, `personalProfile`=#{personalProfile}, `departmentId`=#{departmentId}, `graduateSchool`=#{graduateSchool}
+		 WHERE `id`=#{id};
+	</update>
+	<!--G. 删除人才信息  -->
+	<delete id="deleteEn"  parameterType="String"  >
+			delete from enterpriseTalent
+			where id=#{id};	
+	</delete>
+	
+	
+</mapper>

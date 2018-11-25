@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: itmayido_day28_springboot_jsp
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: jiankaicai
+Implementation-Vendor-Id: com.itmayido
+Build-Jdk: 1.8.0_152
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/itmayido_day28_springboot_jsp
+Created-By: Maven Integration for Eclipse
+

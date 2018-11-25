@@ -1,0 +1,24 @@
+ 		h3{
+		display:inline;		
+		}
+		a{
+			display:inline;
+			color:palevioletred;	
+		}
+		li{
+		list-style:none;
+		line-height:40px;
+		}
+		#one{
+			position:absolute;
+			left:300px;
+			top:70px;
+			border:solid;
+			width:450px;
+			height:300px;
+			text-align:center;
+			line-height: 200px;  
+		}
+		
+		
+	

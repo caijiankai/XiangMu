@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdqn.dao.UserMapper">
+<!--回收策略为先进先出--><!--自动刷新时间60s--><!--最多缓存512个引用对象-->
+<cache eviction="FIFO"  flushInterval="600000" size="512" readOnly="true"/> <!--只读-->
+	<sql id="sql">
+		id,name,password,status,lastModifyTime,typeId
+	</sql>
+	
+	<!-- 通过ID获取数据 -->
+	<select id="checkLogin" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select 
+			users.id,users.name,password,status,lastModifyTime,typeId,
+			user_type.name as type_name
+		from 
+			users,user_type where users.typeId = user_type.id
+		and 
+			users.name=#{name}
+	</select>
+	<!-- 修改密码 -->
+	<update id="updateUserPass" parameterType="java.util.HashMap">
+		update users set password =#{password} where name =#{name}
+	</update>
+	
+	<!-- 分页方法 -->
+	<select id="userList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select 
+			users.id,users.name,password,status,lastModifyTime,typeId,
+			user_type.name as type_name
+		from 
+			users,user_type where users.typeId = user_type.id
+		and 
+			users.name like '%${name}%'
+			
+			limit ${(dangPage-1)*pageSize} ,${pageSize}
+	
+	</select>
+	
+	<!-- 分页 查询总条数 -->
+	<select id="userListCount" parameterType="java.util.HashMap" resultType="Integer">
+		select 
+			count(*)
+		from 
+			users,user_type where users.typeId = user_type.id
+		and 
+			users.name like '%${name}%'
+	</select>
+	
+	<!-- 查询Product -->
+		<select id="checkProduct" resultType="Integer">	
+  		 SELECT * FROM test2.product
+ 		  <where>
+  		<if test="id != null">
+    		id = #{id}
+  		</if> 
+ 		 <if test="id != null">
+   		 AND product_Name  like #{product_Name}
+  		</if>
+  		</where>		
+		</select>
+	
+	
+</mapper>

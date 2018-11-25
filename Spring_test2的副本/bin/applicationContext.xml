@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+		
+		<!-- bean 的自动装配,可以让一个bean对象自动的引用其他bean 
+		
+			byType:按照类型进行匹配,缺点,如果在IOC容器中存在多个相同类型bean ,IOC会出现异常
+			byName:要求bean的属性名称必须与引用的bean的id值保持一致
+			autowire:要么是根据类型自动装配,要么根据名称自动装配,不能两者兼而有之
+		-->
+		<bean id="car1" class="com.spring.bean.Car" p:type="宝马"></bean>
+		<bean id="car2" class="com.spring.bean.Car" p:type="奔驰"></bean>
+		<bean id="car" class="com.spring.bean.Car" p:type="马自达"></bean>
+		<!--  <bean id="car2" class="com.spring.bean.Car" p:type="宝马2"></bean> -->
+		
+		
+		<!-- 这个并不是一个真实存在的bean -->
+		<bean id="abstractPerson" abstract="true" class="com.spring.bean.Person" p:name="tom" p:car-ref="car1"></bean>
+		
+		
+		<bean id="person1" class="com.spring.bean.Person" p:car-ref="car1">
+		
+				<property name="car" ref="car1"></property>
+		</bean>   
+		
+		<!-- 继承 -->
+		
+		<bean id="person3" parent="person1" p:name="李四"> </bean>
+		<!-- 自动装配 按照类型 -->
+		<!-- <bean id="person2" class="com.spring.bean.Person" autowire="byType"></bean>-->
+		<bean id="person12" class="com.spring.bean.Person" autowire="byName"></bean>
+		<!-- 后置处理 -->
+		<bean id="myBeanPostProcessor" class="com.spring.bean.MyBeanPostProcessor"></bean>
+
+		<!-- 包含静态工厂方法的类 -->
+		<!-- <bean id="dateFormat" class="java.text.DateFormat"factory-method="getDateInstance">
+				<constructor-arg value="2"></constructor-arg>
+		</bean> -->
+		
+		
+		<bean id="simpleDateFormat" class="java.text.SimpleDateFormat" >
+				<constructor-arg value="yyyy-MM-dd hh-mm-ss"></constructor-arg>
+		</bean>
+		<!-- 2001-12-12 12-12-12 -->
+		<!-- <bean id="date" factory-bean="simpleDateFormat"factory-method="parse">
+				<constructor-arg value="2001-12-12 12-12-12"></constructor-arg>
+		</bean> -->
+		<!-- 通过class全类名的方式 -->
+		<bean id="car1234" class="com.spring.bean.Car">
+				<property name="type" value="BMW"></property>
+		
+		</bean>
+		<bean id="car2345" class="com.spring.bean.CarFactoryBean">
+				<property name=""></property>
+		</bean>
+		
+		</beans>
